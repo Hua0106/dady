@@ -2,14 +2,15 @@
 <html lang="zh-Hant">
 
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
     <title>父親節快樂</title>
     <style>
         body {
             margin: 0;
-            background: linear-gradient(135deg, #fdfcfb, #e2d1c3);
+            background: linear-gradient(135deg, #f0f5ff, #c8d9ff);
             height: 100vh;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             font-family: 'Microsoft JhengHei', sans-serif;
@@ -18,22 +19,23 @@
 
         .envelope-container {
             position: relative;
-            width: 420px;
-            height: 280px;
-            cursor: pointer;
-            z-index: 2;
+            width: 500px;
+            height: 330px;
+            margin-bottom: 20px;
+            user-select: none;
         }
 
         /* 信封底 */
         .envelope {
             width: 100%;
             height: 100%;
-            background: #d4a373;
+            background: #a8d0ff;
+            /* 淺藍底色 */
             position: relative;
             z-index: 1;
-            border-radius: 6px;
+            border-radius: 8px;
             overflow: hidden;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
         }
 
         /* 信封上蓋 */
@@ -43,9 +45,10 @@
             left: 0;
             width: 0;
             height: 0;
-            border-left: 210px solid transparent;
-            border-right: 210px solid transparent;
-            border-bottom: 140px solid #c68b59;
+            border-left: 250px solid transparent;
+            border-right: 250px solid transparent;
+            border-bottom: 165px solid #6ca0f6;
+            /* 亮淺藍蓋子 */
             transform-origin: top;
             transition: transform 0.8s ease;
             z-index: 2;
@@ -57,39 +60,37 @@
             top: 100%;
             left: 50%;
             transform: translateX(-50%);
-            width: 360px;
-            height: 240px;
+            width: 440px;
+            height: 300px;
             background: white;
-            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
             text-align: center;
-            padding: 25px;
+            padding: 30px;
             box-sizing: border-box;
-            border-radius: 10px;
+            border-radius: 12px;
             z-index: 0;
             background-image: url('https://i.imgur.com/YZl7qJo.png');
             background-size: cover;
             background-position: center;
-            transition: top 1s ease, opacity 1s ease;
+            transition: top 1.2s ease, opacity 1.2s ease;
             transition-delay: 0.5s;
-            /* 延遲卡片滑出 */
             opacity: 0;
-            /* 一開始透明 */
         }
 
         .card-content {
             background: rgba(255, 255, 255, 0.85);
-            padding: 15px;
-            border-radius: 10px;
+            padding: 20px;
+            border-radius: 12px;
         }
 
         .card h1 {
-            color: #6b4226;
+            color: #3a4e7c;
             margin-bottom: 15px;
-            font-size: 26px;
+            font-size: 30px;
         }
 
         .card p {
-            font-size: 18px;
+            font-size: 20px;
             color: #555;
             line-height: 1.6;
         }
@@ -101,41 +102,46 @@
 
         .open .card {
             top: 25px;
-            /* 卡片滑出位置 */
             z-index: 3;
             opacity: 1;
-            /* 滑出時漸亮 */
         }
 
-        /* 彩帶 */
+        /* 按鈕樣式 - 放在信封正中間 */
+        button#openBtn {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #6ca0f6;
+            color: white;
+            font-size: 22px;
+            padding: 14px 36px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+            transition: background 0.3s ease;
+            z-index: 10;
+            user-select: none;
+        }
+
+        button#openBtn:hover {
+            background: #4a7bd1;
+        }
+
+        /* 彩帶效果 */
         .confetti {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            overflow: hidden;
-            z-index: 1;
-        }
-
-        .confetti-piece {
-            position: absolute;
-            width: 8px;
-            height: 14px;
-            background-color: gold;
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background-color: red;
+            top: -10px;
             animation: fall 3s linear forwards;
         }
 
         @keyframes fall {
-            0% {
-                transform: translateY(-10px) rotate(0deg);
-                opacity: 1;
-            }
-
-            100% {
-                transform: translateY(100vh) rotate(360deg);
-                opacity: 0;
+            to {
+                transform: translateY(110vh) rotate(720deg);
             }
         }
     </style>
@@ -143,7 +149,7 @@
 
 <body>
 
-    <div class="envelope-container" onclick="openEnvelope()">
+    <div class="envelope-container">
         <div class="flap"></div>
         <div class="envelope"></div>
         <div class="card">
@@ -153,9 +159,8 @@
                     願您健康快樂，天天開心！</p>
             </div>
         </div>
+        <button id="openBtn" onclick="openEnvelope()">打開信封</button>
     </div>
-
-    <div class="confetti" id="confetti"></div>
 
     <audio id="openSound" src="https://www.soundjay.com/misc/sounds/bell-ringing-05.mp3" preload="auto"></audio>
 
@@ -163,24 +168,34 @@
         function openEnvelope() {
             const container = document.querySelector('.envelope-container');
             const sound = document.getElementById('openSound');
+            const btn = document.getElementById('openBtn');
             if (!container.classList.contains('open')) {
                 container.classList.add('open');
                 sound.play();
-                setTimeout(launchConfetti, 1000); // 彩帶延遲到卡片滑出時
+                btn.style.display = 'none';
+                setTimeout(() => {
+                    startConfetti();
+                }, 1500);
             }
         }
 
-        function launchConfetti() {
-            const confettiContainer = document.getElementById('confetti');
-            for (let i = 0; i < 60; i++) {
+        function startConfetti() {
+            for (let i = 0; i < 80; i++) {
                 const confetti = document.createElement('div');
-                confetti.classList.add('confetti-piece');
+                confetti.classList.add('confetti');
+                document.body.appendChild(confetti);
                 confetti.style.left = Math.random() * 100 + 'vw';
-                confetti.style.backgroundColor = ['gold', '#FFD700', '#FFA500'][Math.floor(Math.random() * 3)];
-                confetti.style.animationDelay = Math.random() * 0.5 + 's';
-                confettiContainer.appendChild(confetti);
-                setTimeout(() => confetti.remove(), 3000);
+                confetti.style.backgroundColor = randomColor();
+                confetti.style.animationDuration = (Math.random() * 2 + 2) + 's';
+                confetti.style.opacity = Math.random();
+                confetti.style.transform = `rotate(${Math.random() * 360}deg)`;
+                setTimeout(() => confetti.remove(), 4000);
             }
+        }
+
+        function randomColor() {
+            const colors = ['#ff0a54', '#ff477e', '#ff7096', '#ff85a1', '#fbb1bd', '#f9bec7', '#ffd6ff', '#c8b6ff', '#b8c0ff', '#bbd0ff'];
+            return colors[Math.floor(Math.random() * colors.length)];
         }
     </script>
 
