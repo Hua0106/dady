@@ -3,125 +3,129 @@
 
 <head>
     <meta charset="UTF-8" />
-    <title>父親節快樂</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>父親節快樂 - 立體信封卡片</title>
     <style>
+        /* 頁面置中 */
         body {
             margin: 0;
-            background: linear-gradient(135deg, #f0f5ff, #c8d9ff);
             height: 100vh;
             display: flex;
-            flex-direction: column;
             justify-content: center;
             align-items: center;
+            background: linear-gradient(135deg, #f0f5ff, #c8d9ff);
             font-family: 'Microsoft JhengHei', sans-serif;
-            overflow: hidden;
         }
 
+        /* 信封容器 */
         .envelope-container {
             position: relative;
-            width: 500px;
-            height: 330px;
-            margin-bottom: 20px;
-            user-select: none;
+            width: 480px;
+            height: 260px;
+            perspective: 1000px;
         }
 
-        /* 信封底 */
-        .envelope {
+        /* 信封底部 */
+        .envelope-base {
             width: 100%;
             height: 100%;
             background: #a8d0ff;
-            /* 淺藍底色 */
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
             position: relative;
-            z-index: 1;
-            border-radius: 8px;
             overflow: hidden;
-            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+            z-index: 1;
         }
 
-        /* 信封上蓋 */
-        .flap {
+        /* 左右翻蓋 */
+        .flap-left,
+        .flap-right {
             position: absolute;
             top: 0;
-            left: 0;
-            width: 0;
-            height: 0;
-            border-left: 250px solid transparent;
-            border-right: 250px solid transparent;
-            border-bottom: 165px solid #6ca0f6;
-            /* 亮淺藍蓋子 */
-            transform-origin: top;
-            transition: transform 0.8s ease;
-            z-index: 2;
+            width: 50%;
+            height: 100%;
+            background: #6ca0f6;
+            border-radius: 12px 0 0 12px;
+            box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.2);
+            transform-origin: left center;
+            transition: transform 1s ease;
+            cursor: pointer;
+            z-index: 3;
         }
 
-        /* 信件卡片 */
+        .flap-right {
+            right: 0;
+            left: auto;
+            border-radius: 0 12px 12px 0;
+            transform-origin: right center;
+        }
+
+        /* 卡片樣式 */
         .card {
             position: absolute;
-            top: 100%;
+            top: 50%;
             left: 50%;
-            transform: translateX(-50%);
-            width: 440px;
-            height: 300px;
+            width: 460px;
+            height: 440px;
             background: white;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-            text-align: center;
-            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
             box-sizing: border-box;
-            border-radius: 12px;
-            z-index: 0;
+            text-align: center;
+            opacity: 0;
+            z-index: 2;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 0;
             background-image: url('https://i.imgur.com/YZl7qJo.png');
             background-size: cover;
             background-position: center;
-            transition: top 1.2s ease, opacity 1.2s ease;
-            transition-delay: 0.5s;
-            opacity: 0;
+
+            transform: translate(-50%, -50%) translateY(300px);
+            transition: transform 1.2s ease, opacity 1.2s ease;
         }
 
+        /* 卡片內容 */
         .card-content {
-            background: rgba(255, 255, 255, 0.85);
-            padding: 20px;
-            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 16px;
+            padding: 40px 50px 50px 50px;
+            box-sizing: border-box;
+            max-width: 100%;
+            text-align: center;
         }
 
         .card h1 {
+            margin: 0 0 20px 0;
+            font-size: 28px;
             color: #3a4e7c;
-            margin-bottom: 15px;
-            font-size: 30px;
         }
 
         .card p {
-            font-size: 20px;
+            font-size: 22px;
             color: #555;
-            line-height: 1.6;
+            line-height: 1.4;
+            white-space: pre-line;
         }
 
-        /* 動畫啟動後的狀態 */
-        .open .flap {
-            transform: rotateX(180deg);
-        }
-
-        .open .card {
-            top: 25px;
-            z-index: 3;
-            opacity: 1;
-        }
-
-        /* 按鈕樣式 - 放在信封正中間 */
+        /* 打開信封按鈕 */
         button#openBtn {
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
+            z-index: 4;
             background: #6ca0f6;
-            color: white;
-            font-size: 22px;
-            padding: 14px 36px;
             border: none;
             border-radius: 8px;
+            color: white;
+            font-size: 20px;
+            padding: 14px 36px;
             cursor: pointer;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
             transition: background 0.3s ease;
-            z-index: 10;
             user-select: none;
         }
 
@@ -129,19 +133,67 @@
             background: #4a7bd1;
         }
 
-        /* 彩帶效果 */
-        .confetti {
-            position: fixed;
-            width: 10px;
-            height: 10px;
-            background-color: red;
-            top: -10px;
-            animation: fall 3s linear forwards;
+        /* 翻蓋動畫 */
+        .open .flap-left {
+            transform: rotateY(-110deg);
         }
 
-        @keyframes fall {
-            to {
-                transform: translateY(110vh) rotate(720deg);
+        .open .flap-right {
+            transform: rotateY(110deg);
+        }
+
+        .open .card {
+            transform: translate(-50%, -50%) translateY(0);
+            opacity: 1;
+        }
+
+        /* 手機響應式 */
+        @media (max-width: 600px) {
+            .envelope-container {
+                width: 90vw;
+                height: auto;
+                max-height: 260px;
+            }
+
+            .envelope-base {
+                height: 160px;
+                border-radius: 8px;
+            }
+
+            .flap-left,
+            .flap-right {
+                height: 160px;
+                width: 45%;
+                border-radius: 8px 0 0 8px;
+            }
+
+            .flap-right {
+                border-radius: 0 8px 8px 0;
+            }
+
+            .card {
+                width: 90vw;
+                height: auto;
+                max-height: 70vh;
+                padding: 0;
+            }
+
+            .card-content {
+                padding: 20px;
+            }
+
+            .card h1 {
+                font-size: 22px;
+            }
+
+            .card p {
+                font-size: 16px;
+                line-height: 1.3;
+            }
+
+            button#openBtn {
+                font-size: 18px;
+                padding: 12px 24px;
             }
         }
     </style>
@@ -149,53 +201,37 @@
 
 <body>
 
-    <div class="envelope-container">
-        <div class="flap"></div>
-        <div class="envelope"></div>
+    <div class="envelope-container" id="envelopeContainer">
+        <div class="envelope-base"></div>
+        <div class="flap-left"></div>
+        <div class="flap-right"></div>
+
         <div class="card">
             <div class="card-content">
                 <h1>父親節快樂！</h1>
-                <p>親愛的爸爸，謝謝您無私的付出與愛 ❤️<br>
-                    願您健康快樂，天天開心！</p>
+                <p>
+                    親愛的爸爸<br>
+                    謝謝您那麼的愛我們❤️當我們的靠山<br>
+                    您的辛勞和付出我們都看在眼裡<br>
+                    您總是默默地支持著我們，無論遇到什麼困難<br>
+                    您總是第一個站出來幫助我們<br>
+                    今天是父親節，希望您每天開心快樂！<br>
+                    我們永遠愛您！華華<br>
+                </p>
             </div>
         </div>
-        <button id="openBtn" onclick="openEnvelope()">打開信封</button>
-    </div>
 
-    <audio id="openSound" src="https://www.soundjay.com/misc/sounds/bell-ringing-05.mp3" preload="auto"></audio>
+        <button id="openBtn" onclick="openEnvelope()">爸比收</button>
+    </div>
 
     <script>
         function openEnvelope() {
-            const container = document.querySelector('.envelope-container');
-            const sound = document.getElementById('openSound');
+            const container = document.getElementById('envelopeContainer');
             const btn = document.getElementById('openBtn');
             if (!container.classList.contains('open')) {
                 container.classList.add('open');
-                sound.play();
                 btn.style.display = 'none';
-                setTimeout(() => {
-                    startConfetti();
-                }, 1500);
             }
-        }
-
-        function startConfetti() {
-            for (let i = 0; i < 80; i++) {
-                const confetti = document.createElement('div');
-                confetti.classList.add('confetti');
-                document.body.appendChild(confetti);
-                confetti.style.left = Math.random() * 100 + 'vw';
-                confetti.style.backgroundColor = randomColor();
-                confetti.style.animationDuration = (Math.random() * 2 + 2) + 's';
-                confetti.style.opacity = Math.random();
-                confetti.style.transform = `rotate(${Math.random() * 360}deg)`;
-                setTimeout(() => confetti.remove(), 4000);
-            }
-        }
-
-        function randomColor() {
-            const colors = ['#ff0a54', '#ff477e', '#ff7096', '#ff85a1', '#fbb1bd', '#f9bec7', '#ffd6ff', '#c8b6ff', '#b8c0ff', '#bbd0ff'];
-            return colors[Math.floor(Math.random() * colors.length)];
         }
     </script>
 
