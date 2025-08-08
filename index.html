@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+    <meta charset="UTF-8">
+    <title>父親節快樂</title>
+    <style>
+        body {
+            margin: 0;
+            background: #f5f5f5;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Microsoft JhengHei', sans-serif;
+        }
+
+        .card-container {
+            position: relative;
+            width: 500px;
+            height: 300px;
+            perspective: 1500px;
+        }
+
+        .card-half {
+            position: absolute;
+            width: 50%;
+            height: 100%;
+            background: #fff5e6;
+            border: 2px solid #e0c097;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            font-weight: bold;
+            color: #8b5e3c;
+            cursor: pointer;
+            transition: transform 1s ease-in-out;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            z-index: 2;
+        }
+
+        .left {
+            left: 0;
+            border-right: none;
+            transform-origin: left center;
+        }
+
+        .right {
+            right: 0;
+            border-left: none;
+            transform-origin: right center;
+        }
+
+        .card-message {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: #fff5e6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 22px;
+            color: #6b4226;
+            padding: 20px;
+            box-sizing: border-box;
+            text-align: center;
+            z-index: 1;
+        }
+
+        /* 開啟動畫 */
+        .open-left {
+            transform: rotateY(-100deg);
+        }
+
+        .open-right {
+            transform: rotateY(100deg);
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="card-container">
+        <div class="card-half left">👔 父</div>
+        <div class="card-half right">親 💖</div>
+        <div class="card-message">
+            親愛的爸爸，謝謝您一直以來的守護與愛！<br>
+            無論多忙碌，你總是默默守護著我們。<br />
+            祝您父親節快樂，健康開心每一天！
+        </div>
+        <div class="footer">我永遠愛你！</div>
+    </div>
+
+    <script>
+        const left = document.querySelector('.left');
+        const right = document.querySelector('.right');
+
+        function openCard() {
+            left.classList.add('open-left');
+            right.classList.add('open-right');
+        }
+
+        left.addEventListener('click', openCard);
+        right.addEventListener('click', openCard);
+    </script>
+
+</body>
+
+</html>
